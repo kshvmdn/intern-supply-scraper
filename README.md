@@ -13,6 +13,11 @@ New data is scraped and committed daily. Find the set of scraped data [here](./d
 
 ### Installation
 
+  - __Requirements__:
+
+    + [Python 3+](https://www.python.org/)
+    + [Git](https://git-scm.com/)
+
   - Clone repository
   
     ```
