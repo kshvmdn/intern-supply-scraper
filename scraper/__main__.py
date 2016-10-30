@@ -44,6 +44,11 @@ def scrape(url):
 
 
 def main():
+    if '--help' in sys.argv:
+        with open('help.txt', 'r') as f:
+            print('\n%s' % f.read())
+        sys.exit(0)
+
     companies = scrape(BASE_URL)
 
     if not companies:

@@ -28,4 +28,23 @@ New data is scraped and committed daily. Find the set of scraped data [here](./d
 
 ### Usage
 
+  - The barebone scraper will generate a CSV file on every run. You can optionally also generate a JSON file (`--json`) and omit the CSV file (`--no-csv`).
+
+  - You can run a `git diff` on the **two most recent CSV** files by adding `--diff`. This'll show you the changes between the 2 most recent scrapes.
+
+  - Run the scraper with `scraper/__main__.py`.
+
+  ```
+  $ ./scraper/__main__.py --help
+  usage: ./scraper/__main__.py [--help] [--no-csv] [--json] [--diff]
+
+  optional arguments:
+    --help      show this help message and exit
+    --no-csv    skip generating a csv file
+    --json      generate json document
+    --diff      run git diff on the two most recent *csv* files
+  ```
+
 ### Contribute
+
+The project is completely open source. Feel free to [open a issue](https://github.com/kshvmdn/intern-supply-scraper/issues) or [submit a pull request](https://github.com/kshvmdn/intern-supply-scraper/pulls)! :smile:
