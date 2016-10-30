@@ -41,13 +41,14 @@ New data is scraped and committed daily. Find the set of scraped data [here](./d
 
   ```
   $ ./scraper/__main__.py --help
-  usage: ./scraper/__main__.py [--help] [--no-csv] [--json] [--diff]
+  usage: ./scraper/__main__.py [--help] [--no-csv] [--json] [--diff] [--verbose]
 
   optional arguments:
     --help      show this help message and exit
     --no-csv    skip generating a csv file
     --json      generate json document
     --diff      run git diff on the two most recent *csv* files
+    --verbose   show detailed output
   ```
 
 ### Contribute

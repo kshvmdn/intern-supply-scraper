@@ -1,7 +1,8 @@
-usage: ./scraper/__main__.py [--help] [--no-csv] [--json] [--diff]
+usage: ./scraper/__main__.py [--help] [--no-csv] [--json] [--diff] [--verbose]
 
 optional arguments:
     --help      show this help message and exit
     --no-csv    skip generating a csv file
     --json      generate json document
     --diff      run git diff on the two most recent *csv* files
+    --verbose   show detailed output
