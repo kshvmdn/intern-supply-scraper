@@ -1,16 +1,17 @@
+#!/usr/bin/env python3
+
 import glob
 import os
 import sys
 
 from collections import OrderedDict
 from datetime import datetime
-from pprint import pprint
 
 from bs4 import BeautifulSoup
 
 from helpers import diff, fetch, log, write
 
-BASE_URL = 'http://intern.supply'
+BASE_URL = 'http://intern.supply/'
 
 
 def scrape(url):
@@ -46,7 +47,7 @@ def main():
     companies = scrape(BASE_URL)
 
     if not companies:
-        print('Failed to scrape data, try again later.')
+        log.log('Failed to scrape data, try again later.', force=True)
         sys.exit(1)
 
     if not os.path.exists('data'):
@@ -66,7 +67,7 @@ def main():
         files = sorted(glob.iglob('data/*.csv'), key=os.path.getctime)
 
         if len(files) < 2:
-            print('Can\'t diff < 2 files. Try running again.')
+            log.log('Can\'t diff < 2 files. Try running again.', force=True)
         else:
             if not diff.diff(*files[-2:]):
                 log.log('No changes since last run.')
