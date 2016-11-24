@@ -15,7 +15,7 @@ New data is scraped and committed daily. Find the set of scraped data [here](./d
 
   - __Requirements__:
 
-    + [Python 3+](https://www.python.org/)
+    + [Go](https://golang.org/)
     + [Git](https://git-scm.com/)
 
   - Clone repository
@@ -28,27 +28,31 @@ New data is scraped and committed daily. Find the set of scraped data [here](./d
   - Install dependencies
 
     ```
-    $ pip install -r ./requirements.txt
+    $ go get
     ```
 
 ### Usage
 
-  - The barebone scraper will generate a CSV file on every run. You can optionally also generate a JSON file (`--json`) and omit the CSV file (`--no-csv`).
+  - The barebone scraper will generate a CSV file on every run and commit that once every 24 hours.
 
-  - You can run a `git diff` on the **two most recent CSV** files by adding `--diff`. This'll show you the changes between the 2 most recent scrapes.
+  - Run the scraper:
 
-  - Run the scraper with `scraper/__main__.py`.
+    ```sh
+    $ go run scraper.go [OPTIONS]
+    ```
+
+  - If you choose, you can build first, then run:
+
+  ```sh
+  $ go build scraper.go
+  $ ./scraper [OPTIONS]
+  ```
+
+  - Command line flags:
 
   ```
-  $ ./scraper/__main__.py --help
-  usage: ./scraper/__main__.py [--help] [--no-csv] [--json] [--diff] [--verbose]
-
-  optional arguments:
-    --help      show this help message and exit
-    --no-csv    skip generating a csv file
-    --json      generate json document
-    --diff      run git diff on the two most recent *csv* files
-    --verbose   show detailed output
+  --no-commit     Omit the git pull/add/commit/push skip
+  --verbose       Get detailed logging output.
   ```
 
 ### Contribute
