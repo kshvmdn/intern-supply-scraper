@@ -58,7 +58,7 @@ def main():
     if not os.path.exists('data'):
         os.makedirs('data')
 
-    now = datetime.now()
+    now = datetime.now().strftime('%Y-%m-%d')
 
     if '--no-csv' not in sys.argv:
         if write._csv('data/%s.csv' % now, companies):
