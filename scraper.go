@@ -6,6 +6,7 @@ import (
 	"os"
 	_ "os/exec"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -66,11 +67,17 @@ func scrape() [][]string {
 	}
 
 	var companies [][]string
-	companies = append(companies, []string{"Name", "Open", "Link"})
+	companies = append(companies, []string{"name", "open", "link"})
 
 	doc.Find("ul#companies li").Each(func(i int, s *goquery.Selection) {
-		companyName := s.Text() // TODO
-		applicationHref, isOpen := s.Find("a").Attr("href")
+		status := s.Find("a")
+		if status.Text() == "" {
+			status = s.Find("h1")
+		}
+
+		companyName := strings.TrimRight(s.Text(), status.Text())
+		applicationHref, _ := status.Attr("href")
+		isOpen := status.Text() == "Apply"
 
 		companies = append(companies, []string{
 			companyName, strconv.FormatBool(isOpen), applicationHref})
