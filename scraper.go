@@ -4,7 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
-	_ "os/exec"
+	"os/exec"
 	"strconv"
 	"strings"
 	"time"
@@ -84,4 +84,33 @@ func scrape() [][]string {
 	})
 
 	return companies
+}
+
+func doGit(command string) {
+	git := "git"
+	remote := "origin"
+	branch := "master"
+
+	var cmd exec.Cmd
+
+	switch command {
+	case "pull":
+		cmd = exec.Command(git, "pull", remote, branch)
+	case "add":
+		cmd = exec.Command(git, "add", ".")
+	case "commit":
+		cmd = exec.Command(git, "commit", "-am", getDateString())
+	case "push":
+		cmd = exec.Command(git, "push", remote, branch)
+	default:
+		cmd = exec.Command(git, "status")
+	}
+
+	out, err := cmd.Output()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(out)
 }
