@@ -22,12 +22,14 @@ func main() {
 		companies := scrape()
 		writeToCsv(filename, companies)
 
-		doGit("pull")
-		doGit("add")
-		doGit("commit")
-		doGit("push")
+		if isArg("-no-commit") == false {
+			doGit("pull")
+			doGit("add")
+			doGit("commit")
+			doGit("push")
+		}
 
-		fmt.Printf("Done, %s.\n", filename)
+		doLog(fmt.Sprintf("Done, %s.", filename), true)
 		time.Sleep(time.Duration(24) * time.Hour)
 	}
 }
@@ -40,26 +42,26 @@ func getDateString() string {
 func writeToCsv(filename string, records [][]string) {
 	f, err := os.Create(filename)
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 
 	// Close f on exit.
 	defer func() {
 		if err := f.Close(); err != nil {
-			panic(err)
+			panic(err.Error())
 		}
 	}()
 
 	w := csv.NewWriter(f)
 
 	if err := w.WriteAll(records); err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 
 	w.Flush()
 
 	if err := w.Error(); err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 }
 
@@ -102,7 +104,7 @@ func doGit(command string) {
 	case "pull":
 		cmd = exec.Command(git, "pull", remote, branch)
 	case "add":
-		cmd = exec.Command(git, "add", ".")
+		cmd = exec.Command(git, "add", "./data")
 	case "commit":
 		cmd = exec.Command(git, "commit", "-am", fmt.Sprintf("Data dump, %s", getDateString()))
 	case "push":
@@ -114,8 +116,24 @@ func doGit(command string) {
 	out, err := cmd.Output()
 
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 
-	fmt.Println(string(out))
+	doLog(string(out), false)
+}
+
+func doLog(message string, important bool) {
+	if important || isArg("--verbose") == true {
+		fmt.Println(message)
+	}
+}
+
+func isArg(arg string) bool {
+	for _, current := range os.Args {
+		if current == arg {
+			return true
+		}
+	}
+
+	return false
 }
