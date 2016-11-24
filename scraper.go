@@ -22,6 +22,11 @@ func main() {
 		companies := scrape()
 		writeToCsv(filename, companies)
 
+		doGit("pull")
+		doGit("add")
+		doGit("commit")
+		doGit("push")
+
 		fmt.Printf("Done, %s.\n", filename)
 		time.Sleep(time.Duration(24) * time.Hour)
 	}
@@ -91,7 +96,7 @@ func doGit(command string) {
 	remote := "origin"
 	branch := "master"
 
-	var cmd exec.Cmd
+	var cmd *exec.Cmd
 
 	switch command {
 	case "pull":
@@ -99,7 +104,7 @@ func doGit(command string) {
 	case "add":
 		cmd = exec.Command(git, "add", ".")
 	case "commit":
-		cmd = exec.Command(git, "commit", "-am", getDateString())
+		cmd = exec.Command(git, "commit", "-am", fmt.Printf("Data dump, %s", getDateString()))
 	case "push":
 		cmd = exec.Command(git, "push", remote, branch)
 	default:
@@ -112,5 +117,5 @@ func doGit(command string) {
 		panic(err)
 	}
 
-	fmt.Println(out)
+	fmt.Println(string(out))
 }
