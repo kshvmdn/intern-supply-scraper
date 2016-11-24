@@ -104,7 +104,7 @@ func doGit(command string) {
 	case "add":
 		cmd = exec.Command(git, "add", ".")
 	case "commit":
-		cmd = exec.Command(git, "commit", "-am", fmt.Printf("Data dump, %s", getDateString()))
+		cmd = exec.Command(git, "commit", "-am", fmt.Sprintf("Data dump, %s", getDateString()))
 	case "push":
 		cmd = exec.Command(git, "push", remote, branch)
 	default:
