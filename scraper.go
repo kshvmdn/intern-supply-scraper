@@ -22,7 +22,7 @@ func main() {
 		companies := scrape()
 		writeToCsv(filename, companies)
 
-		if isArg("-no-commit") == false {
+		if isArg("--no-commit") == false {
 			doGit("pull")
 			doGit("add")
 			doGit("commit")
@@ -106,7 +106,7 @@ func doGit(command string) {
 	case "add":
 		cmd = exec.Command(git, "add", "./data")
 	case "commit":
-		cmd = exec.Command(git, "commit", "-am", fmt.Sprintf("Data dump, %s", getDateString()))
+		cmd = exec.Command(git, "commit", "-m", fmt.Sprintf("Data dump, %s", getDateString()))
 	case "push":
 		cmd = exec.Command(git, "push", remote, branch)
 	default:
