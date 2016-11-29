@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"strconv"
@@ -22,11 +23,15 @@ func main() {
 		companies := scrape()
 		writeToCsv(filename, companies)
 
-		if isArg("--no-commit") == false {
+		if !isArg("--no-commit") {
 			doGit("pull")
 			doGit("add")
 			doGit("commit")
 			doGit("push")
+		}
+
+		if isArg("--diff") {
+			doGit("diff")
 		}
 
 		doLog(fmt.Sprintf("Done, %s.", filename), true)
@@ -109,21 +114,31 @@ func doGit(command string) {
 		cmd = exec.Command(git, "commit", "-m", fmt.Sprintf("Data dump, %s", getDateString()))
 	case "push":
 		cmd = exec.Command(git, "push", remote, branch)
+	case "diff":
+		files, err := ioutil.ReadDir("./data")
+		if err != nil {
+			panic(err.Error())
+		}
+
+		if len(files) < 2 {
+			fmt.Println("Can't diff < 2 files. Try again tomorrow.")
+			return
+		}
+
+		fileA := fmt.Sprintf("data/%s", files[len(files)-2].Name())
+		fileB := fmt.Sprintf("data/%s", files[len(files)-1].Name())
+
+		cmd = exec.Command(git, "diff", "--no-index", "--color", fileA, fileB)
 	default:
 		cmd = exec.Command(git, "status")
 	}
 
-	out, err := cmd.Output()
-
-	if err != nil {
-		panic(err.Error())
-	}
-
+	out, _ := cmd.Output()
 	doLog(string(out), false)
 }
 
 func doLog(message string, important bool) {
-	if important || isArg("--verbose") == true {
+	if important || isArg("--verbose") {
 		fmt.Println(message)
 	}
 }
