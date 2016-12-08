@@ -51,8 +51,9 @@ New data is scraped and committed daily. Find the set of scraped data [here](./d
   - Command line flags:
 
   ```
-  --no-commit     Omit the git pull/add/commit/push skip
+  --no-commit     Omit the git pull/add/commit/push step.
   --verbose       Get detailed logging output.
+  --diff          Run git diff on the 2 latest dump files. Requires there to be at least 2 files present.
   ```
 
 ### Contribute
