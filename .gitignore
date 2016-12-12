@@ -29,5 +29,3 @@ _testmain.go
 # External packages folder
 vendor/
 
-# Data
-data/*.csv
