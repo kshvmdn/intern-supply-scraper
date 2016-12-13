@@ -133,8 +133,19 @@ func doGit(command string) {
 		cmd = exec.Command(git, "status")
 	}
 
-	out, _ := cmd.Output()
-	doLog(string(out), false)
+	out, err := cmd.Output()
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	output := string(out)
+
+	if output == "" && command == "diff" {
+		output = "No changes since last run."
+	}
+
+	doLog(output, false)
 }
 
 func doLog(message string, important bool) {
