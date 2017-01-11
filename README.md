@@ -1,5 +1,7 @@
 ## intern-supply-scraper
 
+__Update (Jan. 11, 2017):__ It looks like Intern Supply isn't being updated as actively as I'd hoped it'd be when developing this. For this reason, I'm going to decrease the frequency of dumps to once/week (instead of daily).
+
 A scraper for [Intern Supply](http://www.intern.supply).
 
 - [Data](#data)
